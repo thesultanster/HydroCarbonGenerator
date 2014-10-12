@@ -1,6 +1,15 @@
-#include<iostream>
+#include <iostream>
+#include <string>
 using namespace std; 
+#include "molecule.h"
+
+
+
 int main()
 {
-    cout << "hii"; 
+    string input; 
+
+	cin >>  input; 
+
+	Molecule molecule(input); 
 }
