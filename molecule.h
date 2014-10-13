@@ -13,6 +13,8 @@ class Molecule
 	vector<pair<string, int> > elements; 
 	// Pointer to first elemetn
 	Element* head; 
+	//Periodic_Table
+	Periodic_Table table; 
 	
 public:
 	Molecule();
@@ -24,6 +26,7 @@ public:
 private:
 	void parseSingleMolecule( string input ); 
 	void constructMolecule(); 
+	void findType(); 
 
 };
 
@@ -37,6 +40,7 @@ Molecule::Molecule( string input )
 {
 	valence = 0;
 	parseSingleMolecule(input); 
+	findType(); 
 	constructMolecule(); 
 	// Calculate idh 
 }
@@ -96,8 +100,8 @@ void Molecule::parseSingleMolecule( string input )
 void Molecule::constructMolecule()
 {
 
-	// Initialize head, pass in name of element in element
-	head = new Element(elements[0].first); 
+	// Initialize head, pass in name of element in element and the table for setup info
+	head = new Element(elements[0].first, table); 
 	
 	cout << *head << endl; 
 }
@@ -117,6 +121,12 @@ void Molecule::printElementsSimple()
 	{
 		cout << "Element: " << elements[i].first << " Amount: " << elements[i].second << endl; 
 	}
+}
+
+void Molecule::findType()
+{
+	if(elements[0].first == "C" && elements[1].first == "H"  ||  elements[0].first == "H" && elements[1].first == "C")
+		type = "HydroCarbon"; 
 }
 
 Molecule::~Molecule()

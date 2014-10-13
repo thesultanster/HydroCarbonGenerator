@@ -4,9 +4,7 @@
 
 class Element
 {
-
-public: 
-	// Abreviation 
+		// Abreviation 
 	string name; 
 	// Full name 
 	string full_name; 
@@ -18,9 +16,11 @@ public:
 
 	vector<Element* > bond; 
 
+public: 
+
 	Element(); 
 	// Default constructor name is always abbreviation. Not "Carbon" but "C"
-	Element( string name );
+	Element( string name, Periodic_Table & table );
 	friend ostream& operator<<(ostream& os, const Element& element);
 };
 
@@ -32,9 +32,9 @@ Element::Element()
 	visited = false; 
 }
 
-Element::Element( string name )
+// The name should be the abbreviation
+Element::Element( string name, Periodic_Table & table)
 {
-	Periodic_Table table; 
 	this->name = name; 
 	this->full_name = table.getFullName(name); 
 	this->atomic_mass = table.getMass(name);
@@ -47,7 +47,6 @@ ostream& operator<<(ostream& os, const Element& element)
 {
 	os << element.full_name << "(" << element.name << ")" << endl;
 	os << "Valence: " << element.valence  << endl;
-
     return os;
 }
 
