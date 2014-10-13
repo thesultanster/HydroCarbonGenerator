@@ -28,13 +28,14 @@ Periodic_Table::Periodic_Table()
 
 	string name; 
 
-	ifstream in("elements.txt");
+	ifstream in;
+	in.open("C:\\Users\\Sultan\\Documents\\GitHub\\organ\\elements.txt");
  
 		// If we couldn't open the output file stream for reading
-		if (!in)
+		if (!in.is_open())
 		{
 			// Print an error and exit
-			cerr << "Cant open elemets.txt file" << endl;
+			cerr << "Cant open elements.txt file" << endl;
 			exit(1);
 		}
 

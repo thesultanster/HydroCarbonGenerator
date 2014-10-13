@@ -3,14 +3,14 @@
 
 class Molecule
 {
+	// Molecule type, ex: Hydro-carbon 
+	string type; 
+	// How many total electrons open 
 	int valence; 
-
 	// Index deficiency of hydrogen 
 	int idh; 
-
 	// Splits molecule into elements and amount 
 	vector<pair<string, int> > elements; 
-
 	// Pointer to first elemetn
 	Element* head; 
 	
@@ -37,7 +37,7 @@ Molecule::Molecule( string input )
 {
 	valence = 0;
 	parseSingleMolecule(input); 
-
+	constructMolecule(); 
 	// Calculate idh 
 }
 
@@ -98,10 +98,8 @@ void Molecule::constructMolecule()
 
 	// Initialize head, pass in name of element in element
 	head = new Element(elements[0].first); 
-	for (int i = 1; i < elements.size(); i++)
-	{
-		elements[i].first; 
-	}
+	
+	cout << *head << endl; 
 }
 
 void Molecule::addElement( string  element, string  amount)
@@ -123,6 +121,6 @@ void Molecule::printElementsSimple()
 
 Molecule::~Molecule()
 {
-
+		
 }
 #endif
