@@ -4,15 +4,26 @@
 class Molecule
 {
 	int valence; 
+
+	// Index deficiency of hydrogen 
+	int idh; 
+
+	// Splits molecule into elements and amount 
 	vector<pair<string, int> > elements; 
+
+	// Pointer to first elemetn
+	Element* head; 
+	
 public:
 	Molecule();
 	Molecule( string input );
-	
-	void addElement( string & element, string & amount);
+	~Molecule();
+	void addElement( string  element, string amount);
 	void printElementsSimple(); 
+
 private:
-	vector<pair<string, int> > parser( string input ); 
+	void parseSingleMolecule( string input ); 
+	void constructMolecule(); 
 
 };
 
@@ -21,13 +32,17 @@ Molecule::Molecule()
 	valence = 0;
 }
 
+// For now, this only parses Single Molecules. 
 Molecule::Molecule( string input )
 {
 	valence = 0;
-	parser(input); 
+	parseSingleMolecule(input); 
+
+	// Calculate idh 
 }
 
-vector<pair<string, int> > Molecule::parser( string input )
+// Parses single molecule input 
+void Molecule::parseSingleMolecule( string input )
 {
 	string element; 
 	string amount; 
@@ -47,7 +62,9 @@ vector<pair<string, int> > Molecule::parser( string input )
 				found_number = false; 
 
 				// save the last Element of molecule 
-				addElement(element,amount); 
+				addElement(element,amount);
+				element = ""; 
+				amount = ""; 
 			}
 
 			if(isupper( input[i] ) )
@@ -70,19 +87,28 @@ vector<pair<string, int> > Molecule::parser( string input )
 
 	// save the last Element of molecule 
 	addElement(element,amount);
-
+	element = ""; 
+	amount = ""; 
 	printElementsSimple();
-	return elements;
+
 }
 
-void Molecule::addElement( string & element, string & amount)
+void Molecule::constructMolecule()
+{
+
+	// Initialize head, pass in name of element in element
+	head = new Element(elements[0].first); 
+	for (int i = 1; i < elements.size(); i++)
+	{
+		elements[i].first; 
+	}
+}
+
+void Molecule::addElement( string  element, string  amount)
 {
 	pair<string, int> my_pair;
 	my_pair.first  = element; 
 	my_pair.second = atoi(amount.c_str());
-
-	element = ""; 
-	amount = ""; 
 
 	elements.push_back(my_pair); 
 }
@@ -95,4 +121,8 @@ void Molecule::printElementsSimple()
 	}
 }
 
+Molecule::~Molecule()
+{
+
+}
 #endif

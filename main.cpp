@@ -2,7 +2,11 @@
 #include <string>
 #include <vector> 
 #include <cctype>
+#include <map>
+#include <fstream> 
 using namespace std; 
+#include "periodic_table.h"
+#include "element.h"
 #include "molecule.h"
 
 
