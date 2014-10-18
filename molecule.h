@@ -3,46 +3,41 @@
 
 class Molecule
 {
-	// Molecule type, ex: Hydro-carbon 
-	string type; 
-	// How many total electrons open 
-	int valence; 
-	// Index deficiency of hydrogen 
-	int idh; 
-	// Splits molecule into elements and amount 
-	vector<pair<string, int> > elements; 
-	// Pointer to first elemetn
-	Element* head; 
-	//Periodic_Table
-	Periodic_Table table; 
-	
-public:
-	Molecule();
-	Molecule( string input );
-	~Molecule();
-	void addElement( string  element, string amount);
-	void printElementsSimple(); 
+	protected: 
+		// Molecule type, ex: HydroCarbon 
+		string type; 
+		// How many electrons open for each molecule 
+		int valence; 
+		// Splits molecule into elements and amount ex: [ <"C", 6> | <"H", 6 > | <"Cl", 2 > ]
+		vector<pair<string, int> > elements; 
+		// Pointer to first elemetn
+		Element* head; 
+		//Periodic_Table
+		Periodic_Table table; 
 
-private:
-	void parseSingleMolecule( string input ); 
-	void constructMolecule(); 
-	void findType(); 
+	private:
+		void parseSingleMolecule( string input ); 
+		void constructMolecule(); 
+		void findType(); 
+
+	public:
+		Molecule();
+		Molecule( string input );
+		~Molecule();
+		void addElement( string  element, string amount);
+		void printElementsSimple(); 
 
 };
 
 Molecule::Molecule()
 {
-	valence = 0;
 }
 
 // For now, this only parses Single Molecules. 
 Molecule::Molecule( string input )
 {
-	valence = 0;
 	parseSingleMolecule(input); 
 	findType(); 
-	constructMolecule(); 
-	// Calculate idh 
 }
 
 // Parses single molecule input 
@@ -97,14 +92,6 @@ void Molecule::parseSingleMolecule( string input )
 
 }
 
-void Molecule::constructMolecule()
-{
-
-	// Initialize head, pass in name of element in element and the table for setup info
-	head = new Element(elements[0].first, table); 
-	
-	cout << *head << endl; 
-}
 
 void Molecule::addElement( string  element, string  amount)
 {
@@ -112,14 +99,14 @@ void Molecule::addElement( string  element, string  amount)
 	my_pair.first  = element; 
 	my_pair.second = atoi(amount.c_str());
 
-	elements.push_back(my_pair); 
+	this->elements.push_back(my_pair); 
 }
 
 void Molecule::printElementsSimple()
 {
-	for (int i = 0; i < elements.size(); i++)
+	for (int i = 0; i < this->elements.size(); i++)
 	{
-		cout << "Element: " << elements[i].first << " Amount: " << elements[i].second << endl; 
+		cout << "Element: " << this->elements[i].first << " Amount: " << this->elements[i].second << endl; 
 	}
 }
 

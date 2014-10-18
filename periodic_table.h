@@ -1,26 +1,27 @@
 #ifndef __PERIODIC_TABLE_H__
 #define __PERIODIC_TABLE_H__
 
-struct Info
-{
-	string name; 
-	string full_name; 
-	int atomic_number; 
-	int valence; 
-	double atomic_mass; 
-};
 
 class Periodic_Table
 {
+	struct Info
+	{
+		string name; 
+		string full_name; 
+		int atomic_number; 
+		int valence; 
+		double atomic_mass; 
+	};
+
 	map<string, Info> elementInfo; 
 
-public:
-	Periodic_Table();
-	Periodic_Table(string element);
-	double getMass( string element); 
-	int getNumber( string element); 
-	int getValence( string element); 
-	string getFullName( string element );
+	public:
+		Periodic_Table();
+		Periodic_Table(string element);
+		double getMass( string element); 
+		int getNumber( string element); 
+		int getValence( string element); 
+		string getFullName( string element );
 };
 
 Periodic_Table::Periodic_Table()

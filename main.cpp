@@ -8,6 +8,7 @@ using namespace std;
 #include "periodic_table.h"
 #include "element.h"
 #include "molecule.h"
+#include "HydroCarbon.h"
 
 
 
@@ -17,5 +18,7 @@ int main()
 
 	cin >>  input; 
 
-	Molecule molecule(input); 
+	//Molecule molecule(input); 
+
+	HydroCarbon my_hydro_carbon(6,6);
 }
