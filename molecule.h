@@ -10,8 +10,10 @@ class Molecule
 		int valence; 
 		// Splits molecule into elements and amount ex: [ <"C", 6> | <"H", 6 > | <"Cl", 2 > ]
 		vector<pair<string, int> > elements; 
-		// Pointer to first elemetn
+		// element pointers of backbone ex:  (head)-->  C => C -> C => C   <--(current)
 		Element* head; 
+		Element* current; 
+
 		//Periodic_Table
 		Periodic_Table table; 
 

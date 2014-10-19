@@ -12,37 +12,74 @@ class HydroCarbon : protected Molecule
 		bool doubleBond; 
 		bool tripleBond; 
 		bool ring; 
+		bool alternate; 
 
 		void prompt();
+		void insertCarbon(); 
 
 	public:
 		HydroCarbon( int carbon, int hydrogen );
-		void constructMolecule();
+
+		int myIdh(); 
+		void constructBackbone();
+
 };
 
 //Constructor
 HydroCarbon::HydroCarbon(  int carbon, int hydrogen )
 {
 	
-	elements.push_back(pair<string, int>("carbon", carbon)); 
-	elements.push_back(pair<string, int>("hydrogen", hydrogen)); 
+	elements.push_back(pair<string, int>("C", carbon)); 
+	elements.push_back(pair<string, int>("H", hydrogen)); 
 	this->carbon = carbon; 
 	this->hydrogen = hydrogen; 
-	valence = 0;
-	idh = ((2*carbon + 2) - 4)/2;
+	this->alternate = true; 
+	this->valence = 0;
+	this->idh = ((2*carbon + 2) - hydrogen)/2;
 	prompt(); 
-	constructMolecule();
+	constructBackbone();
 }
 
 
-void HydroCarbon::constructMolecule()
+void HydroCarbon::constructBackbone()
 {
+	// Initialize head as first element ex: head -> (C) [->, ->, ->, ->] 
+	head = new Element(elements[0].first);
+	current = head; 
 
-	// Initialize head, pass in name of element in element and the table for setup info
-	cerr << elements.size(); 
-	head = new Element(elements[0].first); 
+	for (int i = 1; i < carbon; i++)
+	{
+		insertCarbon(); 
+	}
 	
 	cout << *head << endl; 
+}
+
+void HydroCarbon::insertCarbon()
+{
+	Element* next = new Element("C");
+
+	if(tripleBond && alternate)
+	{
+		// current will equal to next
+		current = current->bondTo(next, 3); 
+		alternate = false; 
+	}
+	else if(doubleBond && alternate)
+	{
+		current = current->bondTo(next, 2); 
+		alternate = false; 
+	}
+	else if(!alternate)
+	{
+		 current = current->bondTo(next,1); 
+		alternate = true; 
+	}
+}
+
+int HydroCarbon::myIdh()
+{
+	return idh; 
 }
 
 void HydroCarbon::prompt()
@@ -51,45 +88,56 @@ void HydroCarbon::prompt()
 
 	if( idh >= 2)
 	{
-		cout << "Do you want a ring? (y/n)"; 
-		cin >> input;
+
 		do
 		{
+			cout << "Do you want a ring? (y/n)"; 
+			cin >> input;
+
 			if(input == "y") 
 				ring = true; 
 			else if(input == "n")
 				ring = false; 
 			else 
 				continue; 
-		} while( false ); 
 
-		cout << "Do you want a double bond? (y/n)";
-		cin >> input;
+			break;
+		} while( true); 
+
 		do
 		{
+			cout << "Do you want a double bond? (y/n)";
+			cin >> input;
+
 			if(input == "y") 
 				doubleBond = true; 
 			else if(input == "n")
 				doubleBond = false; 
 			else 
 				continue; 
-		} while( false ); 
+
+			break;
+		} while( true  ); 
 	}
 	
 	if( idh >=3 )
 	{
-		cout << "Do you want a triple bond? (y/n)";
-		cin >> input;
 		do
 		{
+			cout << "Do you want a triple bond? (y/n)";
+			cin >> input;
+
 			if(input == "y") 
 				tripleBond = true; 
 			else if(input == "n")
 				tripleBond = false; 
 			else 
 				continue; 
-		} while( false ); 
+
+			break; 
+		} while( true ); 
 	}
 	
 };
+
 #endif
