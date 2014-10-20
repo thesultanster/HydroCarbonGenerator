@@ -6,8 +6,8 @@
 #include <fstream> 
 using namespace std; 
 #include "PeriodicTable.h"
-#include "element.h"
-#include "molecule.h"
+#include "Element.h"
+#include "Molecule.h"
 #include "HydroCarbon.h"
 
 

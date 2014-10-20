@@ -1,6 +1,6 @@
 #ifndef __HYDROBARBON_H__
 #define __HYDROCARBONH__
-#include "molecule.h"
+#include "Molecule.h"
 class HydroCarbon : protected Molecule
 {
 	private:
@@ -31,6 +31,7 @@ HydroCarbon::HydroCarbon(  int carbon, int hydrogen )
 	
 	elements.push_back(pair<string, int>("C", carbon)); 
 	elements.push_back(pair<string, int>("H", hydrogen)); 
+	numElements = carbon + hydrogen;
 	this->carbon = carbon; 
 	this->hydrogen = hydrogen; 
 	this->alternate = true; 
@@ -63,16 +64,19 @@ void HydroCarbon::insertCarbon()
 	{
 		// current will equal to next
 		current = current->bondTo(next, 3); 
+		valence -= 3; 
 		alternate = false; 
 	}
 	else if(doubleBond && alternate)
 	{
 		current = current->bondTo(next, 2); 
+		valence -= 2; 
 		alternate = false; 
 	}
 	else if(!alternate)
 	{
-		 current = current->bondTo(next,1); 
+		current = current->bondTo(next,1); 
+		valence -= 1; 
 		alternate = true; 
 	}
 }

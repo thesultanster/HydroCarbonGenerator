@@ -8,11 +8,13 @@ class Molecule
 		string type; 
 		// How many electrons open for each molecule 
 		int valence; 
+		int numElements; 
 		// Splits molecule into elements and amount ex: [ <"C", 6> | <"H", 6 > | <"Cl", 2 > ]
 		vector<pair<string, int> > elements; 
 		// element pointers of backbone ex:  (head)-->  C => C -> C => C   <--(current)
 		Element* head; 
 		Element* current; 
+
 
 		//Periodic_Table
 		Periodic_Table table; 
@@ -120,6 +122,9 @@ void Molecule::findType()
 
 Molecule::~Molecule()
 {
-		
+	for (int i = 0; i < numElements; i++)
+	{
+
+	}
 }
 #endif
