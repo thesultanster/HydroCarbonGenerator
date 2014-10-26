@@ -16,25 +16,30 @@ class HydroCarbon : protected Molecule
 
 		void prompt();
 		void insertCarbon(); 
+		void print(Element* curr); 
 
 	public:
 		HydroCarbon( int carbon, int hydrogen );
 
 		int myIdh(); 
 		void constructBackbone();
+		void printMolecule(); 
 
 };
 
 //Constructor
 HydroCarbon::HydroCarbon(  int carbon, int hydrogen )
+	:doubleBond(0), tripleBond(0), ring(0), alternate(0)
 {
 	
+	// Add elements 
 	elements.push_back(pair<string, int>("C", carbon)); 
 	elements.push_back(pair<string, int>("H", hydrogen)); 
+	// Find number of elements
 	numElements = carbon + hydrogen;
 	this->carbon = carbon; 
 	this->hydrogen = hydrogen; 
-	this->alternate = true; 
+	// For now it is 0 
 	this->valence = 0;
 	this->idh = ((2*carbon + 2) - hydrogen)/2;
 	prompt(); 
@@ -53,30 +58,32 @@ void HydroCarbon::constructBackbone()
 		insertCarbon(); 
 	}
 	
-	cout << *head << endl; 
+	//cout << *head << endl; 
 }
 
+// Used for inserting Carbon, to create the Carbon Backbone
 void HydroCarbon::insertCarbon()
 {
 	Element* next = new Element("C");
 
+	// If we want triple bonds and the previous bond was different. 
 	if(tripleBond && alternate)
 	{
 		// current will equal to next
-		current = current->bondTo(next, 3); 
-		valence -= 3; 
+		current = current->bondTo(next, TRIPLE); 
+		//valence -= 3; 
 		alternate = false; 
 	}
 	else if(doubleBond && alternate)
 	{
-		current = current->bondTo(next, 2); 
-		valence -= 2; 
+		current = current->bondTo(next, DOUBLE); 
+		//valence -= 2; 
 		alternate = false; 
 	}
-	else if(!alternate)
+	else 
 	{
-		current = current->bondTo(next,1); 
-		valence -= 1; 
+		current = current->bondTo(next, SINGLE); 
+		//valence -= 1; 
 		alternate = true; 
 	}
 }
@@ -144,4 +151,28 @@ void HydroCarbon::prompt()
 	
 };
 
+// Print Molecule 
+void HydroCarbon::printMolecule()
+{
+	print(head); 
+	return; 
+}
+
+// Recursively prints the whole molecule, curr is current pointer
+void HydroCarbon::print( Element* curr)
+{
+	if(curr == NULL)
+		return; 
+
+	cout << "(" << curr->name << ") " <<	 endl ; 
+	for (int i = 0; i < curr->bonds.size(); i++)
+	{ 
+		cout << "Bond " << i+1 << ": " << curr->bonds[i].type << " To  (" << curr->bonds[i].next->name << ")" << endl; 
+		print(curr->bonds[i].next); 
+	}
+
+	cout << endl; 
+
+	return; 
+}
 #endif

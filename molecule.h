@@ -14,8 +14,6 @@ class Molecule
 		// element pointers of backbone ex:  (head)-->  C => C -> C => C   <--(current)
 		Element* head; 
 		Element* current; 
-
-
 		//Periodic_Table
 		Periodic_Table table; 
 

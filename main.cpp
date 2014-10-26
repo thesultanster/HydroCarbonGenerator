@@ -21,5 +21,10 @@ int main()
 	//Molecule molecule(input); 
 
 	HydroCarbon my_hydro_carbon(6,6);
-	cout << my_hydro_carbon.myIdh() << endl; 
+	//cout << my_hydro_carbon.myIdh() << endl;
+
+	my_hydro_carbon.printMolecule();
+
+	// TO STOP WINDOW FROM CLOSING
+	cin >> input; 
 }

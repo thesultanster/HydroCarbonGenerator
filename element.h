@@ -1,45 +1,47 @@
 #ifndef __ELEMENT_H__
 #define __ELEMENT_H__
+
 struct Bond; 
+enum BondType { SINGLE, DOUBLE, TRIPLE }; 
 
 class Element
 {
 
-	Periodic_Table  table;
+	private: 
+		Periodic_Table  table;
+		// Checks if element visisted for...
+		bool visited; 
 
-	// Abreviation 
-	string name; 
-	// Full name 
-	string full_name; 
-	int atomic_number; 
-	double atomic_mass; 
-	int valence; 
-	// Checks if element visisted for...
-	bool visited; 
+	public: 
+		// Default constructor
+		Element(); 
+		// Name is always abbreviation. Not "Carbon" but "C"
+		Element( string name);
 
-	// Vector of all bonds
-	vector<Bond > bonds; 
-
-public: 
-
-	Element(); 
-	// Default constructor name is always abbreviation. Not "Carbon" but "C"
-	Element( string name);
-	int getValence();
-	Element* bondTo(Element* bondTo , int bondNum ); 
-	friend ostream& operator<<(ostream& os, const Element& element);
+		//==   Variables  ===========================================  
+		string name;													// name is abbreviated es: "C" 
+		string full_name;  											// Full name ex: "Carbon"
+		int atomic_number;										// atomic number = # protons
+		double atomic_mass; 
+		int valence;													// How many electrons the elements has 
+		// Vector of all bonds
+		vector<Bond > bonds; 
+	
+		// == Functions  ===========================================
+		int getValence();
+		Element* bondTo(Element* bondTo , BondType type ); 
+		friend ostream& operator<<(ostream& os, const Element& element);
 };
 
 struct Bond 
 {
-	Bond(Element* bond,  int weight )
+	Bond(Element* next,  BondType type )
 	{
-		this->weight = weight; 
-		this->bond = bond; 
+		this->type = type; 
+		this->next = next; 
 	}
-
-	int weight; 
-	Element* bond; 
+	BondType type; 
+	Element* next; 
 }; 
 
 Element::Element()
@@ -73,11 +75,31 @@ ostream& operator<<(ostream& os, const Element& element)
     return os;
 }
 
-Element* Element::bondTo(Element* bondTo , int bondNum)
+// *bondTo is the pointer that points to the next element that you want to bond to
+//  type is the type of bond: SINGLE DOUBLE TRIPLE
+Element* Element::bondTo(Element* bondTo , BondType type)
 {
-	this->bonds.push_back( Bond(bondTo, bondNum)); 
-	this->valence -= bondNum; 
+	this->bonds.push_back( Bond(bondTo, type)); 
+	this->valence -= type; 
 	return bondTo; 
 }
 
+/* This overload function allows to print out the bond type of BondType enum
+* Example
+*
+*		BondType type = DOUBLE; 
+*		cout << type; 
+*      // This will print "Double"
+*/
+ostream& operator<<( ostream& os, const BondType type )
+{
+    if(type == SINGLE)
+		os << "Single"; 
+	else if(type == DOUBLE)
+		os << "Double"; 
+	else if(type == TRIPLE)
+		os << "Triple"; 
+
+    return os;
+}
 #endif
