@@ -3,19 +3,16 @@
 
 class Molecule
 {
-	protected: 
-		// Molecule type, ex: HydroCarbon 
-		string type; 
-		// How many electrons open for each molecule 
-		int valence; 
-		int numElements; 
-		// Splits molecule into elements and amount ex: [ <"C", 6> | <"H", 6 > | <"Cl", 2 > ]
-		vector<pair<string, int> > elements; 
-		// element pointers of backbone ex:  (head)-->  C => C -> C => C   <--(current)
-		Element* head; 
-		Element* current; 
-		//Periodic_Table
-		Periodic_Table table; 
+	protected: 	
+		string type;									// Molecule type, ex: HydroCarbon 
+		int valence;								// How many electrons open for each molecule 
+		int numElements;						// Number of Elements in molecule
+		vector<pair<string, int> > elements;		// Splits molecule into elements and amount ex: [ <"C", 6> | <"H", 6 > | <"Cl", 2 > ]
+		
+		// Element pointers of backbone ex:  (head)-->  C => C -> C => C   <--(current)
+		Element* head;							// Head pointer points to first added element (a carbon)
+		Element* current;						// Temp pointer points to last added element 
+		Periodic_Table table;				// Periodic Table used for information lookup
 
 	private:
 		void parseSingleMolecule( string input ); 

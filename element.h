@@ -9,24 +9,21 @@ class Element
 
 	private: 
 		Periodic_Table  table;
-		// Checks if element visisted for...
-		bool visited; 
+		
 
 	public: 
-		// Default constructor
-		Element(); 
-		// Name is always abbreviation. Not "Carbon" but "C"
-		Element( string name);
+		Element();							// Default constructor
+		Element( string name);	// Name is always abbreviation. Not "Carbon" but "C"
+		Element::Element( string name, int id);  // ID is used to tag each separate element
 
 		//==   Variables  ===========================================  
-		string name;													// name is abbreviated es: "C" 
-		string full_name;  											// Full name ex: "Carbon"
-		int atomic_number;										// atomic number = # protons
-		double atomic_mass; 
-		int valence;													// How many electrons the elements has 
-		// Vector of all bonds
-		vector<Bond > bonds; 
-	
+		string name;													// Name is abbreviated es: "C" 
+		string fullName;  											// Full name ex: "Carbon + #"
+		int atomic_number;										// Atomic number = # protons
+		double atomic_mass;									// Atomic mass
+		int elementValence;										// How many electrons the elements has 
+		vector<Bond > bonds;									// Vector of all bonds
+		bool visited;													// Checks if element visisted for print functions
 		// == Functions  ===========================================
 		int getValence();
 		Element* bondTo(Element* bondTo , BondType type ); 
@@ -47,30 +44,42 @@ struct Bond
 Element::Element()
 {
 	this->atomic_number = 0; 
-	this->valence = 0; 
+	this->elementValence = 0; 
 	this->atomic_mass = 0.0;
 	this->visited = false; 
 }
 
-// The name should be the abbreviation
+// Constructor(name is abbreviation ex: "C")
 Element::Element( string name)
 {
 	this->name = name; 
-	this->full_name = table.getFullName(name); 
+	this->fullName = table.getFullName(name) + " NoID"; 
 	this->atomic_mass = table.getMass(name);
-	this->valence = table.getValence(name);
+	this->elementValence = table.getValence(name);
 	this->atomic_number = table.getNumber(name); 
+	this->visited = false; 
 }
+
+Element::Element( string name, int id)
+{
+	this->name = name; 
+	this->fullName = table.getFullName(name) + to_string(id); 
+	this->atomic_mass = table.getMass(name);
+	this->elementValence = table.getValence(name);
+	this->atomic_number = table.getNumber(name); 
+	this->visited = false; 
+}
+
 
 int Element::getValence()
 {
-	return this->valence; 
+	return this->elementValence; 
 }
 
 ostream& operator<<(ostream& os, const Element& element)
 {
-	os << element.full_name << " (" << element.name << ")" << endl;
-	os << "Valence: " << element.valence  << endl;
+	os << element.fullName << " (" << element.name << ")" << endl;
+	os << "Valence: " << element.elementValence  << endl;
 	os << "Atomic Mass: " << element.atomic_mass << endl; 
     return os;
 }
@@ -79,8 +88,8 @@ ostream& operator<<(ostream& os, const Element& element)
 //  type is the type of bond: SINGLE DOUBLE TRIPLE
 Element* Element::bondTo(Element* bondTo , BondType type)
 {
-	this->bonds.push_back( Bond(bondTo, type)); 
-	this->valence -= type; 
+	this->bonds.push_back( Bond(bondTo, type));			// Adds element to bond list
+	this->elementValence -= type;										// Update valence of element v = v - Bond number
 	return bondTo; 
 }
 
