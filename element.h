@@ -16,7 +16,7 @@ class Element
 		Element( string name);	// Name is always abbreviation. Not "Carbon" but "C"
 		Element::Element( string name, int id);  // ID is used to tag each separate element
 
-		//==   Variables  ===========================================  
+		//==   Variables  ================================================
 		string name;													// Name is abbreviated es: "C" 
 		string fullName;  											// Full name ex: "Carbon + #"
 		int atomic_number;										// Atomic number = # protons
@@ -24,9 +24,9 @@ class Element
 		int elementValence;										// How many electrons the elements has 
 		vector<Bond > bonds;									// Vector of all bonds
 		bool visited;													// Checks if element visisted for print functions
-		// == Functions  ===========================================
+		// == Functions  ================================================
 		int getValence();
-		Element* bondTo(Element* bondTo , BondType type ); 
+		void bondTo(Element* bondTo , BondType type ); 
 		friend ostream& operator<<(ostream& os, const Element& element);
 };
 
@@ -60,6 +60,8 @@ Element::Element( string name)
 	this->visited = false; 
 }
 
+// Constructor(name is abbreviation ex: "C")
+// id is jus tused to tag the element by number
 Element::Element( string name, int id)
 {
 	this->name = name; 
@@ -86,11 +88,20 @@ ostream& operator<<(ostream& os, const Element& element)
 
 // *bondTo is the pointer that points to the next element that you want to bond to
 //  type is the type of bond: SINGLE DOUBLE TRIPLE
-Element* Element::bondTo(Element* bondTo , BondType type)
+void Element::bondTo(Element* bondTo , BondType type)
 {
-	this->bonds.push_back( Bond(bondTo, type));			// Adds element to bond list
-	this->elementValence -= type;										// Update valence of element v = v - Bond number
-	return bondTo; 
+	int valenceWeight = 0; 
+	if( type == SINGLE )
+		valenceWeight  = 1; 
+	else if( type == DOUBLE )
+		valenceWeight = 2; 
+	else if( type == TRIPLE )
+		valenceWeight = 3; 
+
+	this->bonds.push_back( Bond(bondTo, type));			// Document bond for this element 
+	bondTo->bonds.push_back(Bond(this,type));				// Document bond for the element to bond to
+	this->elementValence -= valenceWeight;					// Update valence of this element
+	bondTo->elementValence -= valenceWeight;				// Update valence of element to bond to
 }
 
 /* This overload function allows to print out the bond type of BondType enum

@@ -16,10 +16,6 @@ int main()
 {
     string input; 
 
-	//cin >>  input; 
-
-	//Molecule molecule(input); 
-
 	HydroCarbon my_hydro_carbon(6,6);
 	//cout << my_hydro_carbon.myIdh() << endl;
 
