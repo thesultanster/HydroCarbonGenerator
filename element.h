@@ -87,7 +87,7 @@ ostream& operator<<(ostream& os, const Element& element)
 }
 
 // *bondTo is the pointer that points to the next element that you want to bond to
-//  type is the type of bond: SINGLE DOUBLE TRIPLE
+//  type is the type of bond: SINGLE DOUBLE TRIPLE 
 void Element::bondTo(Element* bondTo , BondType type)
 {
 	int valenceWeight = 0; 
