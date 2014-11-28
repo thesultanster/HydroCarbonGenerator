@@ -43,7 +43,7 @@ HydroCarbon::HydroCarbon(  int carbon, int hydrogen )
 	this->valence = carbon*4;									// valence = number of carbons*4. vari from Molecule.h
 	this->idh = ((2*carbon + 2) - hydrogen)/2;
 
-	if(hydrogen > 2	)													// bondTable works for values > 2
+	if(carbon%2 == 0 && hydrogen%2 == 0 && hydrogen > 2	)		
 		bondTable = createBondTable();					// Construct Bond table
 	prompt();																// prompt for ring and properties
 	constructBackbone();											// Construct carbon backbone
@@ -68,7 +68,7 @@ void HydroCarbon::constructBackbone()
 		elements["C"].push_back(next);				   // Document the pointer to the Carbon element
  
 		 // If this molecule is compatible with our lookup table
-		if(carbon%2 == 0 && hydrogen%2 == 0 && !ring )   // Then create backbone according to table	
+		if(carbon%2 == 0 && hydrogen%2 == 0 && hydrogen > 2 && !ring )   // Then create backbone according to table	
 		{
 			//iterate through bondtypes
 			current->bondTo(next, bondTable[j][hydrogen/2-2]);

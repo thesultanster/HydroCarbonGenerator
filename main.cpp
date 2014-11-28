@@ -16,11 +16,18 @@ int main()
 {
     string input; 
 
-	HydroCarbon my_hydro_carbon(6,6);
-	//cout << my_hydro_carbon.myIdh() << endl;
+	cout << "Making Propane" << endl;
+	cout << "===========================================" << endl; 
 
-	my_hydro_carbon.printMolecule();
+	HydroCarbon my_hydro_carbon1(3,8);
+	my_hydro_carbon1.printMolecule();
+	
+	cout << "Making Benzene  Isomer" << endl;
+	cout << "===========================================" << endl; 
 
+	HydroCarbon my_hydro_carbon2(6,6);
+	my_hydro_carbon2.printMolecule();
+	
 	// TO STOP WINDOW FROM CLOSING
 	cin >> input; 
 }
